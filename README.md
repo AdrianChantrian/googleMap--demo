@@ -1,8 +1,11 @@
 This text note is for introduce map-demo function and how to handle some errors may occur.
 Start:
-1. right click the folder and chose visual code or to ther platform to run it
-2. open terminal in platform
-2. use "yarn start" to run the web on server.
+
+*impotant*1. please open "src/constatn.js" to set the GOOGLE_API_KEY before use(in case of leak my key, you should set key before use. You can find it in the zip file I sent, it is in "src/container/Map/index.jsx"; or please use your own key which should include 3 Lab, which are Maps JavaScript API, Geocoding API and Time Zone API)
+
+2. right click the folder and chose visual code or to ther platform to run it
+3. open terminal in platform
+4. use "yarn start" to run the web on server.
 
 Function:
 1. Search:

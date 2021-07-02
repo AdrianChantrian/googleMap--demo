@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { addToFavorite,removeFromFavorite,updateFavorite,updateFavoriteTime } from '../../redux/actions/favorite';
 import { addMark,deleteMark,updateMark,updateColor,updateTime } from '../../redux/actions/mark';
 import { formatDate} from '../../func';
+import { GOOGLE_API_KEY } from '../../constant';
 // some const value for initial the map
 const coords = {
     lat: 43.653226,
@@ -14,7 +15,7 @@ const coords = {
   };
 const google = window.google;
 const currentSpotId = nanoid()
-const params = {v: '3.exp', key: 'AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU'};
+const params = {v: '3.exp', key: GOOGLE_API_KEY};
 class Map extends Component {
     state = {
         currentSpot:{id:currentSpotId,lat:coords.lat,lng:coords.lng},
@@ -51,7 +52,7 @@ class Map extends Component {
             navigator.geolocation.getCurrentPosition(
                 position => {
                     if(this.props.markList.length === 0){
-                        axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${position.coords.latitude},${position.coords.longitude}&timestamp=1331766000&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`).then(
+                        axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${position.coords.latitude},${position.coords.longitude}&timestamp=1331766000&key=${GOOGLE_API_KEY}`).then(
                             response => {
                                 this.currentRawOffset = response.data.rawOffset
                                 this.currentDstOffset = response.data.dstOffset
@@ -223,8 +224,8 @@ class Map extends Component {
     //update mark information if mark is dragged
     refreshMark(preLatLng,mark){
         //request new information from google geocoding api and time zone api
-        let rawOffset = axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${mark.lat},${mark.lng}&timestamp=1331766000&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`)
-        let address = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${mark.lat},${mark.lng}&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`)
+        let rawOffset = axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${mark.lat},${mark.lng}&timestamp=1331766000&key=${GOOGLE_API_KEY}`)
+        let address = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${mark.lat},${mark.lng}&key=${GOOGLE_API_KEY}`)
         Promise.all([rawOffset,address]).then(
             response => {
                 const timestamp = new Date().getTime() - this.currentRawOffset*1000 + response[0].data.rawOffset*1000 + response[0].data.dstOffset*1000;
@@ -241,8 +242,8 @@ class Map extends Component {
     //create new mark and put it in mark list and save it as currentMark
     createMark(lat,lng){
         //request new information from google geocoding api and time zone api
-        let rawOffset = axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1331766000&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`)
-        let address = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`)
+        let rawOffset = axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1331766000&key=${GOOGLE_API_KEY}`)
+        let address = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`)
         Promise.all([rawOffset,address]).then(
             response => {
                 let newMark = this.getMark(lat,lng,response[0].data.dstOffset,response[0].data.rawOffset,response[1].data.results[0].formatted_address)

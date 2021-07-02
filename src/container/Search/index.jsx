@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { addMark } from '../../redux/actions/mark'
 import { nanoid } from 'nanoid'
 import { formatDate } from '../../func'
+import { GOOGLE_API_KEY } from '../../constant'
 import "./index.css"
 class Search extends Component {
     // isAddress to check whether current input is addrees or latitude and lontitude, to decide search way for input
@@ -19,7 +20,7 @@ class Search extends Component {
             navigator.geolocation.getCurrentPosition(
                 position => {
                     if(this.state.refresh){
-                        axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${position.coords.latitude},${position.coords.longitude}&timestamp=1331766000&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`).then(
+                        axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${position.coords.latitude},${position.coords.longitude}&timestamp=1331766000&key=${GOOGLE_API_KEY}`).then(
                             response => {
                                 this.currentRawOffset = response.data.rawOffset
                                 this.currentDstOffset = response.data.dstOffset
@@ -52,7 +53,7 @@ class Search extends Component {
                 for(const str of stringArray){
                     addString = addString.concat("+",str)
                 }
-                axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addString}&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`).then(
+                axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addString}&key=${GOOGLE_API_KEY}`).then(
                     response=> {
                         if(typeof(response.data.results[0]) === "undefined")
                             alert("invalid address")
@@ -78,7 +79,7 @@ class Search extends Component {
             for(const str of stringArray){
                 addString = addString.concat("+",str)
             }
-            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addString}&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`).then(
+            axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${addString}&key=${GOOGLE_API_KEY}`).then(
                 response=> {
                     if(typeof(response.data.results[0]) === "undefined")
                         alert("invalid address")
@@ -97,8 +98,8 @@ class Search extends Component {
 
     //create new mark of searched location
     createMark(lat,lng){
-        let rawOffset = axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1331766000&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`)
-        let address = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyCyUVsNJgD8fGLebs_WCyI4MPUTL22PHSU`)
+        let rawOffset = axios.get(`https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1331766000&key=${GOOGLE_API_KEY}`)
+        let address = axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`)
         Promise.all([rawOffset,address]).then(
             response => {
                 if(!this.state.isAddress)
