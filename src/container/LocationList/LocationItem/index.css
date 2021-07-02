@@ -1,0 +1,22 @@
+.Location-item{
+    width:496px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px;
+}
+.Location-item span{
+    margin-left: 5px;
+    flex-grow: 20;
+    font-size: 12px;
+}
+.Location-item button{
+    height: 30px;
+    outline:none;
+    border:none;
+    margin-right: 5px;
+    border-radius: 5px;
+    background-color:#a4beec ;
+    color:white;
+    flex-grow:1;
+}

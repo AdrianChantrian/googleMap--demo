@@ -1,0 +1,15 @@
+.Location-list{
+    width: 500px;
+    margin-top:20px;
+    border: 2px #a4beec solid;
+    border-radius: 5px;
+}
+.Location-list h2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Location-list ul{
+    margin-top: 20px;
+}
+
